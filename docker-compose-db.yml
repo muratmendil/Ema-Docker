@@ -1,0 +1,40 @@
+version: '3.5'
+
+services:
+  mysqlauthdb:
+    image: mysql:5.7
+    container_name: authdatabase
+    restart: always
+    ports:
+      - '3306:3306'
+    volumes: 
+      - authdb:/var/lib/mysql 
+    environment:
+      MYSQL_DATABASE: ema_auth
+      MYSQL_USER: emaauth
+      MYSQL_PASSWORD: MuratEmilin93
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: 127.0.0.1
+  mysqlcalendardb:
+    image: mysql:5.7
+    container_name: calendardatabase
+    restart: always
+    ports:
+      - '3307:3306'
+    volumes: 
+      - calendardb:/var/lib/mysql 
+    environment:
+      MYSQL_DATABASE: ema_calendar
+      MYSQL_USER: emacalendar
+      MYSQL_PASSWORD: MuratEmilin93
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: 127.0.0.1
+networks:
+  default:
+    external:
+      name: ema_default_network
+volumes: 
+  authdb:
+    external: true
+  calendardb:
+    external: true

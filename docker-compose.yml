@@ -1,0 +1,32 @@
+version: '3.5'
+services:
+  eureka-server:
+    image: ema/ema-eureka:latest
+    container_name: "ema-eureka-service"
+    ports:
+     - '8761:8761'
+  gateway:
+    image: ema/ema-zuul:latest
+    container_name: "ema-zuul-service"
+    links:
+      - eureka-server
+    ports:
+      - "9000:9000"
+  emaauthservice:
+    image: ema/ema-auth:latest
+    container_name: "ema-auth-service"
+    ports:
+      - '9001:8080'
+    depends_on:
+      - eureka-server
+  emacalendarservice:
+    image: ema/ema-calendar:latest
+    container_name: "ema-calendar-service"
+    ports:
+      - '9002:8080'
+    depends_on:
+      - eureka-server
+networks:
+  default:
+    external:
+      name: ema_default_network
